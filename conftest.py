@@ -25,14 +25,6 @@ def created_user(user_api):
 
 
 @pytest.fixture
-def register_response(user_api):
-    user_data = helpers.generate_user_data()
-    response = user_api.register(user_data)
-    yield response
-    user_api.delete_user(response.json()["accessToken"])
-
-
-@pytest.fixture
 def ingredient_hash(order_api):
     response = order_api.get_ingredients()
     return response.json()["data"][0]["_id"]

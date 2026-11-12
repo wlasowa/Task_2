@@ -5,9 +5,7 @@ import data
 
 class TestCreateOrderApi:
     @allure.title("Создание заказа с авторизацией и ингредиентами")
-    @allure.description(
-        "Авторизованный юзер может создать заказ с ингредиентами"
-    )
+    @allure.description("Авторизованный юзер может создать заказ с ингредиентами")
     def test_create_order_with_auth(self, order_api, created_user, ingredient_hash):
         payload = {"ingredients": [ingredient_hash]}
         response = order_api.create_order(payload, token=created_user["access_token"])

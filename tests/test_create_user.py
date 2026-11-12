@@ -2,16 +2,20 @@ import allure
 import pytest
 
 import data
+import helpers
 
 
 class TestCreateUserApi:
     @allure.title("Создание уникального юзера")
     @allure.description("Уникальный юзер создается, возвращаются токены")
-    def test_create_user(self, register_response):
-        assert register_response.status_code == 200
-        assert register_response.json()["success"] is True
-        assert "accessToken" in register_response.json()
-        assert "refreshToken" in register_response.json()
+    def test_create_user(self, user_api):
+        user_data = helpers.generate_user_data()
+        response = user_api.register(user_data)
+        assert response.status_code == 200
+        assert response.json()["success"] is True
+        assert "accessToken" in response.json()
+        assert "refreshToken" in response.json()
+        user_api.delete_user(response.json()["accessToken"])
 
     @allure.title("Создание уже зарегистрированного юзера")
     @allure.description("Повторная регистрация с теми же данными возвращает ошибку")
